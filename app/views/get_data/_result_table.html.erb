@@ -1,0 +1,21 @@
+<div class="mt-8">
+  <h3 class="text-lg font-semibold text-gray-800 mb-4">Risultato G1</h3>
+
+  <table class="min-w-full table-auto border border-gray-300 text-sm">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2 border">File</th>
+        <th class="px-4 py-2 border">Dimensione (bytes)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% files.each do |name, size| %>
+        <tr>
+          <td class="px-4 py-2 border"><%= name %></td>
+          <td class="px-4 py-2 border"><%= size %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

@@ -1,0 +1,2 @@
+class SelfAdvance < ApplicationRecord
+end

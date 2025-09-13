@@ -1,0 +1,21 @@
+<div class="max-w-2xl mx-0 p-8 bg-white shadow-md rounded-md">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Richiesta G1 dettaglio</h1>
+
+  <%= form_with url: res_get_g1_get_data_path, method: :post, local: true, data: { turbo: false }, class: "space-y-6" do |f| %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label class="text-sm font-medium mb-2 text-gray-700">Dal giorno</label>
+        <%= f.date_field :date_from, value: Date.today, class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="text-sm font-medium mb-2 text-gray-700">Al giorno</label>
+        <%= f.date_field :date_to, value: Date.today, class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+
+    <div class="flex justify-start mt-4">
+      <%= f.submit "Scarica documenti", class: "bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,19 @@
+<ul class="flex space-x-6">
+<li>
+  <%= link_to "Elenco punti", points_path,
+    class: "inline-flex items-center px-4 py-2 #{session[:color]} cursor-pointer" %>
+</li>
+
+
+<li>
+  <%= link_to "Richiedi G1", in_get_g1_get_data_path,
+    class: "inline-flex items-center px-4 py-2 #{session[:color]} cursor-pointer" %>
+</li>
+
+
+<li>
+  <%= link_to "Mostra csv scaricati", show_csv_get_data_path,
+    class: "inline-flex items-center px-4 py-2 #{session[:color]} cursor-pointer" %>
+</li>
+
+</ul>

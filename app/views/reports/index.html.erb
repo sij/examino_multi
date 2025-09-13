@@ -1,0 +1,60 @@
+<turbo-frame id="reports_table">
+  <div class="mb-2">
+    <span class="inline-block bg-blue-200 text-blue-800 text-sm font-semibold px-5 py-2 rounded whitespace-nowrap">
+      Periodo analizzato: <%= @period_label %>
+    </span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full border-collapse border border-gray-300 text-sm">
+      <thead>
+        <tr class="bg-gray-100 font-semibold">
+          <th scope="col" class="border px-2 py-1 text-left">Codice</th>
+          <th scope="col" class="border px-2 py-1 text-left">Venduto Sport</th>
+          <th scope="col" class="border px-2 py-1 text-left">Pagamenti Sport</th>
+          <th scope="col" class="border px-2 py-1 text-left">Saldo Gioco Sport</th>
+          <th scope="col" class="border px-2 py-1 text-left">Venduto Virtual</th>
+          <th scope="col" class="border px-2 py-1 text-left">Pagamenti Virtual</th>
+          <th scope="col" class="border px-2 py-1 text-left">Saldo Gioco Virtual</th>
+          <th scope="col" class="border px-2 py-1 text-left">Saldo Cassa Totale</th>
+        </tr>
+      </thead>
+      <tbody>
+  <% @reports.each do |point, data| %>
+    <tr class="even:bg-slate-100">
+      <td class="border px-2 py-1 flex items-center gap-2">
+        <%= cod_punto_by_id data[:bet_point_id] %>
+        <%# Hint: mostra l'ID punto come tooltip sull'icona %>
+        <span class="text-gray-500 cursor-help" title="Comune: <%= comune_punto_by_id(data[:bet_point_id]) %>">
+          <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 align-text-bottom" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- <title>Comune</title>  RIMOSSO -->
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+          </svg>
+        </span>
+      </td>
+      <td class="border px-2 py-1 <%= highlight_class(@report_type, :venduto_sport, data[:venduto_sport]) %>">
+        <%= eu_number data[:venduto_sport] %>            </td>
+            <td class="border px-2 py-1">
+              <%= eu_number data[:pagamenti_sport] %>
+            </td>
+            <td class="border px-2 py-1 <%= highlight_class(@report_type, :saldo_gioco_sport, data[:saldo_gioco_sport]) %>">
+              <%= eu_number data[:saldo_gioco_sport] %>
+            </td>
+            <td class="border px-2 py-1 <%= highlight_class(@report_type, :venduto_virtual, data[:venduto_virtual]) %>">
+              <%= eu_number data[:venduto_virtual] %>
+            </td>
+            <td class="border px-2 py-1">
+              <%= eu_number data[:pagamenti_virtual] %>
+            </td>
+            <td class="border px-2 py-1 <%= highlight_class(@report_type, :saldo_gioco_virtual, data[:saldo_gioco_virtual]) %>">
+              <%= eu_number data[:saldo_gioco_virtual] %>
+            </td>
+            <td class="border px-2 py-1 <%= highlight_class(@report_type, :saldo_cassa_totale, data[:saldo_cassa_totale]) %>">
+              <%= eu_number data[:saldo_cassa_totale] %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</turbo-frame>

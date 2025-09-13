@@ -1,0 +1,77 @@
+<%= form_with(model: g1_detail, class: "contents") do |form| %>
+  <% if g1_detail.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(g1_detail.errors.count, "error") %> prohibited this g1_detail from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% g1_detail.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :bet_point_id %>
+    <%= form.text_field :bet_point_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:bet_point_id].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:bet_point_id].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :csmf_cod %>
+    <%= form.text_field :csmf_cod, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:csmf_cod].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:csmf_cod].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :data %>
+    <%= form.date_field :data, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:data].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:data].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :num_term %>
+    <%= form.number_field :num_term, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:num_term].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:num_term].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cod_tipo_gioco %>
+    <%= form.text_field :cod_tipo_gioco, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:cod_tipo_gioco].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:cod_tipo_gioco].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cod_tipo_conc %>
+    <%= form.text_field :cod_tipo_conc, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:cod_tipo_conc].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:cod_tipo_conc].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :des_gioco %>
+    <%= form.text_field :des_gioco, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:des_gioco].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:des_gioco].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :num_emesso %>
+    <%= form.number_field :num_emesso, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:num_emesso].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:num_emesso].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :impo_emesso %>
+    <%= form.number_field :impo_emesso, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:impo_emesso].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:impo_emesso].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :num_pagato %>
+    <%= form.number_field :num_pagato, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:num_pagato].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:num_pagato].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :impo_pagato %>
+    <%= form.number_field :impo_pagato, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:impo_pagato].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:impo_pagato].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :tipologia %>
+    <%= form.text_field :tipologia, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": g1_detail.errors[:tipologia].none?, "border-red-400 focus:outline-red-600": g1_detail.errors[:tipologia].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

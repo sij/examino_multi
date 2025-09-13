@@ -1,0 +1,151 @@
+<div class="max-w-7xl mx-auto p-4">
+  <h2 class="text-2xl font-bold mb-4">
+    <!-- titolo view -->
+  </h2>
+  <p class="mb-4">
+    Periodo: <strong><%= eu_date @start_date %></strong> - <strong><%= eu_date @end_date %></strong>
+    <%= comune_punto %> <%= codice_punto %>
+  </p>
+
+  <!-- Tre box affiancati con grafico e tabella -->
+  <div class="flex flex-row gap-8 overflow-x-auto pb-4">
+    <% @datasets.each_with_index do |dataset, idx| %>
+      <% labels = @labels %>
+      <% tk_emessi = labels.map { |tip| dataset[:results][:by_tipologia][tip][:num_emesso] } %>
+      <% tk_percent = labels.map { |tip| dataset[:results][:by_tipologia][tip][:percent_num_emesso] } %>
+      <% chart_id = "tipologiaBarChart#{idx}" %>
+      <div class="bg-gray-50 rounded-lg shadow p-4 flex-1 min-w-[330px] max-w-sm">
+        <h3 class="text-lg font-semibold mb-2"><%= dataset[:title] %></h3>
+        <div class="mb-6">
+          <canvas id="<%= chart_id %>" height="120"></canvas>
+        </div>
+        <table class="min-w-full border mb-4 bg-white">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="border px-2 py-1">Tipologia</th>
+              <th class="border px-2 py-1">Ticket Emessi</th>
+              <th class="border px-2 py-1">% sul Totale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% total_num_emesso = dataset[:results][:total_num_emesso].to_i %>
+            <% dataset[:results][:by_tipologia].each do |tip, data| %>
+              <tr>
+                <td class="border px-2 py-1"><%= tip %></td>
+                <td class="border px-2 py-1"><%= data[:num_emesso] %></td>
+                <td class="border px-2 py-1"><%= data[:percent_num_emesso] %> %</td>
+              </tr>
+            <% end %>
+            <tr class="font-bold bg-gray-100">
+              <td class="border px-2 py-1">Totale</td>
+              <td class="border px-2 py-1"><%= total_num_emesso %></td>
+              <td class="border px-2 py-1">100%</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Chart data for JS -->
+        <div 
+          class="chart-data"
+          data-chart-id="<%= chart_id %>"
+          data-labels="<%= labels.to_json %>"
+          data-tk-emessi="<%= tk_emessi.to_json %>"
+          data-tk-percent="<%= tk_percent.to_json %>">
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Tabella terminali disponibili e media giornaliera -->
+  <div class="mb-6 mt-10 bg-gray-50 rounded-lg shadow p-4">
+    <h3 class="text-lg font-semibold mb-2">Terminali disponibili e media giornaliera di uso</h3>
+    <table class="min-w-full border mb-2 bg-white">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border px-2 py-1">Tipologia</th>
+          <th class="border px-2 py-1">Numero terminali</th>
+          <th class="border px-2 py-1">Media giornaliera uso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tipi = [
+          { chiave: 'operatore',   label: 'Operatore',   disponibile: @num_terminali.try(:tipo_ter_1) || 0 },
+          { chiave: 'SelfService', label: 'SelfService', disponibile: @num_terminali.try(:tipo_ter_2) || 0 },
+          { chiave: 'SelfAdvance', label: 'SelfAdvance', disponibile: @num_terminali.try(:tipo_ter_3) || 0 }
+        ] %>
+        <% tipi.each do |tip| %>
+          <tr>
+            <td class="border px-2 py-1"><%= tip[:label] %></td>
+            <td class="border px-2 py-1"><%= tip[:disponibile] %></td>
+            <td class="border px-2 py-1">
+              <%= tip[:disponibile] > 0 && @media_terminals.present? ? ((@media_terminals[tip[:chiave]] || 0).round(2)) : 0 %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Nuova analisi", input_analyze_data_analysis_path, class: "text-blue-600 underline" %>
+  </div>
+</div>
+
+<!-- JS Chart.js UNA VOLTA SOLA -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.chart-data').forEach(function(div) {
+    const chartId = div.dataset.chartId;
+    const labels = JSON.parse(div.dataset.labels);
+    const tkEmessi = JSON.parse(div.dataset.tkEmessi);
+    const tkPercent = JSON.parse(div.dataset.tkPercent);
+    const ctx = document.getElementById(chartId).getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Ticket Emessi',
+          data: tkEmessi,
+          backgroundColor: [
+            'rgba(37, 99, 235, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(234, 179, 8, 0.8)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'start',
+            formatter: function(value, context) {
+              return tkPercent[context.dataIndex] + ' %';
+            },
+            color: '#444',
+            font: { weight: 'bold' }
+          },
+          tooltip: {
+            callbacks: {
+              afterLabel: function(context) {
+                return 'Percentuale: ' + tkPercent[context.dataIndex] + ' %';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Ticket Emessi' }
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  });
+});
+</script>

@@ -1,0 +1,65 @@
+# File e cartelle da ignorare per una app Ruby on Rails
+
+# Logs
+/log/*
+!/log/.keep
+
+# Temporary files
+/tmp/*
+!/tmp/.keep
+
+# PID
+*.pid
+*.pid.lock
+
+# Byebug command history
+.byebug_history
+
+# Bundler config
+/.bundle
+
+# Gems
+/vendor/bundle
+*.gem
+
+# Node modules
+/node_modules
+
+# Yarn error log
+yarn-error.log
+
+# Rails credentials e master key (non vanno MAI su git!)
+/config/master.key
+/config/credentials.yml.enc
+/config/credentials/*.key
+/config/credentials/*.enc
+
+# Database
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# dotenv
+.env*
+
+# Build output (es. output Tailwind, Vite)
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# Ignora tutti i file nella cartella public/download, tranne .keep
+public/download/*
+!public/download/.keep
+
+# Chiavi private (mai su git!)
+*.pem
+*.key
+id_rsa
+id_rsa.*
+credentials
+
+# File temporanei editor
+*~
+*.swp
+*.swo
+.DS_Store
+.idea/
+.vscode/

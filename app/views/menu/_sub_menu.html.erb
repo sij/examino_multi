@@ -1,0 +1,3 @@
+<% if (menu = current_user.available_menu_items.find { |m| m[:id] == session[:menu_id].to_i }) %>
+  <%= render "/menu/sub_menu/#{menu[:submenu]}" %>
+<% end %>

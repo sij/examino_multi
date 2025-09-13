@@ -1,0 +1,8 @@
+<ul class="flex space-x-6">
+<%= render "/menu/dropdown", title: "Tabelle", items: {
+  "Utenti" => users_path,
+  "Ruoli" => roles_path,
+  "owner" => owners_path,
+  "Tabella Advance" => self_advances_path
+} %>
+</ul>
