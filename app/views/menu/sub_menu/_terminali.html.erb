@@ -1,0 +1,14 @@
+<ul class="flex space-x-6">
+  <li>
+    <%= link_to "Dettaglio", g1_details_path,
+      class: "inline-flex items-center px-4 py-2 #{session[:color]} cursor-pointer" %>
+  </li>
+  <li>
+    <%= link_to "Analisi generale", input_analyze_data_analysis_path,
+      class: "inline-flex items-center px-4 py-2 #{session[:color]} cursor-pointer" %>
+  </li>
+  <li>
+    <%= link_to "Analisi dettagliata", input_analyze_ter_data_analysis_path,
+      class: "inline-flex items-center px-4 py-2 #{session[:color]} cursor-pointer" %>
+  </li>
+</ul>

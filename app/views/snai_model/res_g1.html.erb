@@ -1,0 +1,26 @@
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">G1 <%=codice_punto%> <%=comune_punto%> <%= eu_date(params[:date].to_date) %></h2>
+
+  <table class="min-w-full table-auto border border-gray-300">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Data</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Gioco</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Causale</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Importo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr class="border-t border-gray-200 hover:bg-gray-50">
+          <td class="px-4 py-2 text-sm text-gray-800"><%= item.id %></td>
+          <td class="px-4 py-2 text-sm text-gray-800"><%= eu_date item.data %></td>
+          <td class="px-4 py-2 text-sm text-gray-800"><%= item.gioco %></td>
+          <td class="px-4 py-2 text-sm text-gray-800"><%= item.causale %></td>
+          <td class="px-4 py-2 text-sm text-gray-800"><%= eu_number item.importo %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

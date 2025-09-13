@@ -1,0 +1,38 @@
+<h1 class="text-xl font-bold mb-6">Nuovo Report</h1>
+
+<div class="max-w-3xl">
+  <%= form_with url: reports_path, method: :get,
+        data: {
+          controller: "report-filter",
+          action: "submit->report-filter#submit",
+          report_filter_last_date_value: @last_g1_item_date&.strftime('%Y-%m-%d')
+        },
+        class: "w-full" do %>
+    <div class="flex flex-col sm:flex-row items-end gap-2">
+      <div>
+        <label for="report_type" class="block text-xs font-semibold">Tipo</label>
+        <%= select_tag :report_type,
+            options_for_select([["Giornaliero", "daily"], ["Settimanale", "weekly"], ["Mensile", "monthly"]], @report_type),
+            id: "report_type",
+            class: "border rounded px-2 py-1",
+            data: { action: "change->report-filter#updateDateInput" } %>
+      </div>
+
+      <div id="date-input-container" data-report-filter-target="dateInput">
+        <% case @report_type
+           when "daily" %>
+          <label for="date" class="block text-xs font-semibold">Giorno</label>
+          <%= date_field_tag :date, (params[:date] || @last_g1_item_date&.strftime("%Y-%m-%d") || Date.current), class: "border rounded px-2 py-1" %>
+        <% when "weekly" %>
+          <label for="week" class="block text-xs font-semibold">Settimana</label>
+          <%= week_field_tag :week, (params[:week] || "#{Date.current.cwyear}-W#{Date.current.cweek.to_s.rjust(2, '0')}"), class: "border rounded px-2 py-1" %>
+        <% when "monthly" %>
+          <label for="month" class="block text-xs font-semibold">Mese</label>
+          <%= month_field_tag :month, (params[:month] || Date.current.strftime("%Y-%m")), class: "border rounded px-2 py-1" %>
+        <% end %>
+      </div>
+       <%= submit_tag "Esegui", data: { report_filter_target: "submit" }, class: "bg-blue-500 text-white px-4 py-1 rounded" %>
+    </div>
+  <% end %>
+</div>
+

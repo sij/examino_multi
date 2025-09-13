@@ -1,0 +1,151 @@
+<!-- Alpine.js se non già incluso nel layout/applicazione -->
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<div class="max-w-5xl mx-auto p-4">
+  <h2 class="text-2xl font-bold mb-4">
+    Analisi per terminali — Dettaglio & Riepilogo
+  </h2>
+  <p class="mb-4">
+    Periodo: <strong><%= eu_date @start_date %></strong> - <strong><%= eu_date @end_date %></strong>
+    <%= comune_punto %> <%= codice_punto %>
+  </p>
+
+  <!-- RIEPILOGO COLLASSABILE -->
+  <div class="mb-6" x-data="{ open: false }">
+    <button type="button"
+      @click="open = !open"
+      class="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition mb-2"
+    >
+      <span x-show="!open">Mostra</span>
+      <span x-show="open">Nascondi</span>
+      Riepilogo generale & per tipologia
+      <svg x-show="!open" class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+      <svg x-show="open" class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+
+    <div x-show="open" x-transition>
+      <!-- Totale generale -->
+      <div class="bg-gray-100 border rounded-lg shadow mb-4 p-4">
+        <h4 class="font-bold mb-2">Totale generale</h4>
+        <ul class="text-sm space-y-1">
+          <li>
+            <span class="font-semibold">Totale Tk Emesso:</span>
+            <%= @totale_generale[:totale_num_emesso] %>
+          </li>
+          <li>
+            <span class="font-semibold">Totale Emesso:</span>
+            <%= eu_number(@totale_generale[:totale_impo_emesso]) %>
+          </li>
+          <li>
+            <span class="font-semibold">SPORT:</span>
+            <%= @totale_generale[:sport_num_emesso] %> tk - <%= eu_number(@totale_generale[:sport_impo_emesso]) %>
+            <span class="text-gray-500 text-xs">
+              (<%= number_to_percentage((@totale_generale[:sport_num_emesso].to_f / @totale_generale[:totale_num_emesso] * 100 rescue 0), precision: 2) %> tk,
+               <%= number_to_percentage((@totale_generale[:sport_impo_emesso].to_f / @totale_generale[:totale_impo_emesso] * 100 rescue 0), precision: 2) %> €)
+            </span>
+          </li>
+          <li>
+            <span class="font-semibold">VIRTUALI:</span>
+            <%= @totale_generale[:virtuali_num_emesso] %> tk - <%= eu_number(@totale_generale[:virtuali_impo_emesso]) %>
+            <span class="text-gray-500 text-xs">
+              (<%= number_to_percentage((@totale_generale[:virtuali_num_emesso].to_f / @totale_generale[:totale_num_emesso] * 100 rescue 0), precision: 2) %> tk,
+               <%= number_to_percentage((@totale_generale[:virtuali_impo_emesso].to_f / @totale_generale[:totale_impo_emesso] * 100 rescue 0), precision: 2) %> €)
+            </span>
+          </li>
+        </ul>
+      </div>
+      <!-- Riepilogo per tipologia -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <% @totali_per_tipologia.each do |tip, dati| %>
+          <div class="bg-white border rounded-lg shadow p-4">
+            <h4 class="font-semibold mb-2 capitalize"><%= tip %></h4>
+            <ul class="text-sm space-y-1">
+              <li>
+                <span class="font-semibold">Totale Tk Emesso:</span>
+                <%= dati[:totale_num_emesso] %>
+                <span class="text-gray-500 text-xs">
+                  (<%= number_to_percentage((@totale_num_emesso > 0 ? dati[:totale_num_emesso].to_f / @totale_num_emesso * 100 : 0), precision: 2) %> sul totale)
+                </span>
+              </li>
+              <li>
+                <span class="font-semibold">Totale Emesso:</span>
+                <%= eu_number(dati[:totale_impo_emesso]) %>
+                <span class="text-gray-500 text-xs">
+                  (<%= number_to_percentage((@totale_impo_emesso > 0 ? dati[:totale_impo_emesso].to_f / @totale_impo_emesso * 100 : 0), precision: 2) %> sul totale)
+                </span>
+              </li>
+              <li>
+                <span class="font-semibold">SPORT:</span>
+                <%= dati[:sport_num_emesso] %> tk - <%= eu_number(dati[:sport_impo_emesso]) %>
+                <span class="text-gray-500 text-xs">
+                  (<%= number_to_percentage((@totale_num_emesso > 0 ? dati[:sport_num_emesso].to_f / @totale_num_emesso * 100 : 0), precision: 2) %> tk,
+                  <%= number_to_percentage((@totale_impo_emesso > 0 ? dati[:sport_impo_emesso].to_f / @totale_impo_emesso * 100 : 0), precision: 2) %> €)
+                </span>
+              </li>
+              <li>
+                <span class="font-semibold">VIRTUALI:</span>
+                <%= dati[:virtuali_num_emesso] %> tk - <%= eu_number(dati[:virtuali_impo_emesso]) %>
+                <span class="text-gray-500 text-xs">
+                  (<%= number_to_percentage((@totale_num_emesso > 0 ? dati[:virtuali_num_emesso].to_f / @totale_num_emesso * 100 : 0), precision: 2) %> tk,
+                  <%= number_to_percentage((@totale_impo_emesso > 0 ? dati[:virtuali_impo_emesso].to_f / @totale_impo_emesso * 100 : 0), precision: 2) %> €)
+                </span>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- END RIEPILOGO COLLASSABILE -->
+
+  <% if @results.present? %>
+    <table class="min-w-full border mb-6">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border px-2 py-1">Num Term</th>
+          <th class="border px-2 py-1">Tipologia</th>
+          <th class="border px-2 py-1">Gioco</th>
+          <th class="border px-2 py-1">Totale Tk Emesso</th>
+          <th class="border px-2 py-1">% su totale Tk Emesso</th>
+          <th class="border px-2 py-1">Totale Emesso</th>
+          <th class="border px-2 py-1">% su totale Emesso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% prev_num_term = nil %>
+        <% color_toggle = false %>
+        <% @results.each_with_index do |data, idx| %>
+          <% if idx != 0 && data[:num_term] != prev_num_term %>
+            <tr>
+              <td colspan="7" class="border-t-8 border-gray-500"></td>
+            </tr>
+            <% color_toggle = !color_toggle %>
+          <% elsif idx == 0 %>
+            <% color_toggle = false %>
+          <% end %>
+          <% row_bg_class = color_toggle ? 'bg-teal-500' : 'bg-cyan-500' %>
+          <tr class="<%= row_bg_class %>">
+            <td class="border px-2 py-1"><%= data[:num_term] %></td>
+            <td class="border px-2 py-1 font-semibold <%= tipologia_color_class(data[:tipologia]) %>">
+              <%= data[:tipologia] %>
+            </td>
+            <td class="border px-2 py-1 font-semibold <%= gioco_color_class(data[:gioco]) %>">
+              <%= data[:gioco] %>
+            </td>
+            <td class="border px-2 py-1"><%= data[:totale_num_emesso] %></td>
+            <td class="border px-2 py-1"><%= number_to_percentage(data[:percent_num_emesso], precision: 2) %></td>
+            <td class="border px-2 py-1"><%= eu_number(data[:totale_impo_emesso]) %></td>
+            <td class="border px-2 py-1"><%= number_to_percentage(data[:percent_impo_emesso], precision: 2) %></td>
+          </tr>
+          <% prev_num_term = data[:num_term] %>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="mt-8 text-red-700">Nessun risultato trovato per l'intervallo selezionato.</div>
+  <% end %>
+</div>

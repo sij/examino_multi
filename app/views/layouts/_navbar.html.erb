@@ -1,0 +1,28 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gray-300 px-6 py-4 flex justify-between items-center shadow-md">
+  <div class="flex items-center space-x-2">
+    <%= link_to about_path do %>
+      <%= image_tag "SijIcoApp.ico", class: "h-10 w-10 object-contain" %>
+    <% end %>
+
+    <% if current_user %>
+      <%= link_to "Home", root_path,
+          class: "inline-block px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-200" %>
+    <% end %>
+    <% if current_user %>
+      <%= link_to "#{current_user.name}", edit_my_password_user_path(current_user),
+          class: "inline-block px-4 py-2 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition duration-200" %>
+    <% end %>
+
+    <% if current_user %>
+      <%= link_to "#{codice_punto} #{comune_punto}", home_select_point_path,
+          class: "inline-block px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200" %>
+    <% end %>
+
+    <%= render 'layouts/navigation_links' %>
+  </div>
+
+  <div>
+    <%= button_to "Logout", logout_path, method: :delete,
+        class: "bg-indigo-600 hover:bg-red-500 text-white px-4 py-2 rounded-md font-semibold transition duration-200" %>
+  </div>
+</nav>

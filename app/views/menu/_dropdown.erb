@@ -1,0 +1,16 @@
+<li class="relative" data-controller="dropdown">
+  <a href="#" class="inline-flex items-center px-4 py-2 <%= session[:color] %> cursor-pointer"
+     data-action="click->dropdown#toggle">
+    <%= title %>
+    <svg class="ml-1 w-4 h-4 fill-current" viewBox="0 0 20 20">
+      <path d="M5.23 7.21a.75.75 0 011.06 0L10 10.92l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z"/>
+    </svg>
+  </a>
+
+  <ul data-dropdown-target="menu"
+      class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible transition-opacity z-50">
+    <% items.each do |label, path| %>
+      <li><%= link_to label, path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %></li>
+    <% end %>
+  </ul>
+</li>

@@ -1,0 +1,2 @@
+module SnaiModelHelper
+end
