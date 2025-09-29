@@ -62,7 +62,7 @@ end
 gem "cancancan", "~> 3.6"
 
 
-gem "faraday", "~> 2.13"
+gem "faraday", "~> 2.14"
 
 gem "excon", "~> 1.3"
 
